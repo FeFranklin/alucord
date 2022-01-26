@@ -14,10 +14,11 @@ const HomePage = () => {
   return (
     <>
       <GlobalStyle />
-      <Box className={`flex items-center justify-center bg-[${appConfig.theme.colors.primary[500]}] bg-blend-multiply m-0 container bg-cover bg-no-repeat bg-[url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)]`}
+      <Box 
+        className={`flex items-center justify-center bg-[${appConfig.theme.colors.primary[500]}] bg-blend-multiply m-0 container bg-cover bg-no-repeat bg-[url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)]`}
       >
         <Box
-        className={`p-[32px] shadow-md m-4 flex xs:flex-column sm:flex-row items-center justify-between w-full max-w-[700px] rounded-2xl bg-[${appConfig.theme.colors.neutrals[700]}]`}
+          className={`p-[32px] shadow-md m-4 flex xs:flex-column sm:flex-row items-center justify-between w-full max-w-[700px] rounded-2xl bg-[#212931]`}
         >
           {/* Formulário */}
           <Box
