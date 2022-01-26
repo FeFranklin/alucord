@@ -1,3 +1,5 @@
+const appConfig = require('./config.json');
+
 module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx}',
@@ -5,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    container: {
+      center: true,
+    }
   },
   plugins: [],
 }
