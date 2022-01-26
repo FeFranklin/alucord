@@ -8,8 +8,6 @@ import appConfig from '../config.json';
 import GlobalStyle from '../components/GlobalStyle';
 import Title from '../components/Title';
 
-import style from '../components/style';
-
 const HomePage = () => {
   const username = 'peas';
 
@@ -17,10 +15,16 @@ const HomePage = () => {
     <>
       <GlobalStyle />
       <Box 
-        className={`flex items-center justify-center ${style('bg', appConfig.theme.colors.primary[500])} bg-blend-multiply m-0 container bg-cover bg-no-repeat bg-[url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)]`}
+        style={{
+          backgroundColor: appConfig.theme.colors.primary[500]
+        }}
+        className={`flex items-center justify-center bg-blend-multiply m-0 container bg-cover bg-no-repeat bg-[url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)]`}
       >
         <Box
-          className={`p-[32px] shadow-md m-4 flex xs:flex-column sm:flex-row items-center justify-between w-full max-w-[700px] rounded-2xl ${style('bg', appConfig.theme.colors.neutrals[700])}`}
+        style={{
+          backgroundColor: appConfig.theme.colors.neutrals[700]
+        }}
+          className={`p-[32px] shadow-md m-4 flex xs:flex-column sm:flex-row items-center justify-between w-full max-w-[700px] rounded-2xl`}
         >
           {/* Formulário */}
           <Box
@@ -28,7 +32,13 @@ const HomePage = () => {
             className={`mb-[32px] flex flex-col items-center justify-center xs:w-full sm:w-1/2 text-center`}
           >
             <Title tag="h2">Boas vindas de volta!</Title>
-            <Text variant="body3" className={`mb-[32px] ${style('text', appConfig.theme.colors.neutrals[300])}`}>
+            <Text
+              variant="body3"
+              className={`mb-[32px]`}
+              style={{
+                color: appConfig.theme.colors.neutrals[300]
+              }}
+            >
               {appConfig.name}
             </Text>
 
@@ -59,7 +69,11 @@ const HomePage = () => {
 
           {/* Photo Area */}
           <Box
-            className={`flex-1 min-h-[240px] rounded-[10px] ${style('border', appConfig.theme.colors.neutrals[999])} border border-solid flex flex-col items-center max-w-[200px] p-[16px] ${style('bg', appConfig.theme.colors.neutrals[800])}]`}
+            style={{
+              backgroundColor: appConfig.theme.colors.neutrals[800],
+              borderColor: appConfig.theme.colors.neutrals[999]
+            }}
+            className={`flex-1 min-h-[240px] rounded-[10px] border border-solid flex flex-col items-center max-w-[200px] p-[16px]`}
           >
             <Image
               className='rounded-[50%] mb-[16px]'
@@ -67,7 +81,11 @@ const HomePage = () => {
             />
             <Text
               variant="body4"
-              className={`py-[3px] px-[10px] rounded-[1000px] ${style('bg', appConfig.theme.colors.neutrals[900])} ${style('text', appConfig.theme.colors.neutrals[200])}`}
+              style={{
+                backgroundColor: appConfig.theme.colors.neutrals[900],
+                color: appConfig.theme.colors.neutrals[200]
+              }}
+              className={`py-[3px] px-[10px] rounded-[1000px]`}
             >
               {username}
             </Text>
