@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'tailwindcss/tailwind.css';
 import {
   Box, Button, Text, TextField, Image,
 } from '@skynexui/components';
+import { useRouter } from 'next/router';
 import appConfig from '../config.json';
-import GlobalStyle from '../components/GlobalStyle';
 import Title from '../components/Title';
 
 const HomePage = () => {
-  const username = 'peas';
+  const [username, setUsername] = useState('fefranklin');
+  const router = useRouter();
 
   return (
     <>
-      <GlobalStyle />
       <Box 
         style={{
           backgroundColor: appConfig.theme.colors.primary[500]
@@ -29,6 +29,10 @@ const HomePage = () => {
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              router.push('/404');
+            }}
             className={`mb-[32px] flex flex-col items-center justify-center xs:w-full sm:w-1/2 text-center`}
           >
             <Title tag="h2">Boas vindas de volta!</Title>
@@ -43,6 +47,7 @@ const HomePage = () => {
             </Text>
 
             <TextField
+              onChange={e => setUsername(e.target.value)}
               fullWidth
               textFieldColors={{
                 neutral: {
@@ -57,6 +62,7 @@ const HomePage = () => {
               type="submit"
               label="Entrar"
               fullWidth
+              disabled={username?.length <= 2}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals['000'],
                 mainColor: appConfig.theme.colors.primary[500],
