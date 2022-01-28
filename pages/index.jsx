@@ -31,7 +31,7 @@ const HomePage = () => {
             as="form"
             onSubmit={(e) => {
               e.preventDefault();
-              router.push('/404');
+              router.push('/chat');
             }}
             className={`mb-[32px] flex flex-col items-center justify-center xs:w-full sm:w-1/2 text-center`}
           >
@@ -49,6 +49,7 @@ const HomePage = () => {
             <TextField
               onChange={e => setUsername(e.target.value)}
               fullWidth
+              value={username? username : ''}
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
