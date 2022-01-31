@@ -6,6 +6,7 @@ import MessageList from '../components/MessageList';
 import Loading from '../components/Loading';
 import 'tailwindcss/tailwind.css';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 
 const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQwNTQwOCwiZXhwIjoxOTU4OTgxNDA4fQ.X0W2HDhLb8mczbunBTDeDxkEY-EM3ZyaPd-ZNlyFhdc';
 const SUPABASE_URL = process.env.NEXT_PUBLIC_URL || 'https://eijmsyxnibwglmhbchql.supabase.co';
@@ -17,6 +18,9 @@ const Chat = () => {
   const [messageList, setMessageList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+  const user = router.query.username;
+
   const handleDeleteMessage = async (message) => {
     const { data, error} = await supabaseClient
       .from('Messages')
@@ -27,7 +31,7 @@ const Chat = () => {
   const handleNewMessage = (newMessage) => {
     const message = {
       text: newMessage,
-      from: 'user',
+      from: user,
     }
     supabaseClient
       .from('Messages')

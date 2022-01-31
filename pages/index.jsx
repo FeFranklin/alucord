@@ -31,7 +31,7 @@ const HomePage = () => {
             as="form"
             onSubmit={(e) => {
               e.preventDefault();
-              router.push('/chat');
+              router.push(`/chat?username=${username}`);
             }}
             className={`mb-[32px] flex flex-col items-center justify-center xs:w-full sm:w-1/2 text-center`}
           >
