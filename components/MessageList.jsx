@@ -26,7 +26,7 @@ const MessageList = ({ messages, onDelete }) => {
           <Box className='mb-[8px] flex flex-row items-baseline'>
             <Image
               className='w-[20px] h-[20px] rounded-[50%] inline-block mr-[8px]'
-              src={`https://github.com/vanessametonini.png`}
+              src={`https://github.com/${mes.from}.png`}
             />
             <Text className="text-base" tag="strong">{mes.from}</Text>
             <Text

@@ -1,9 +1,15 @@
 import { Box, TextField, Button } from '@skynexui/components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import appConfig from '../config.json';
 import Header from '../components/Header';
 import MessageList from '../components/MessageList';
 import 'tailwindcss/tailwind.css';
+import { createClient } from '@supabase/supabase-js';
+
+const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzQwNTQwOCwiZXhwIjoxOTU4OTgxNDA4fQ.X0W2HDhLb8mczbunBTDeDxkEY-EM3ZyaPd-ZNlyFhdc';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_URL || 'https://eijmsyxnibwglmhbchql.supabase.co';
+
+const supabaseClient = createClient(SUPABASE_URL, API_KEY);
 
 const Chat = () => {
   const [message, setMessage] = useState();
@@ -13,15 +19,32 @@ const Chat = () => {
     const message = {
       text: newMessage,
       from: 'user',
-      id: messageList.length,
     }
-    setMessageList(oldState => [...oldState, message]);
+    supabaseClient
+      .from('Messages')
+      .insert([message])
+      .then(({ data }) => {
+        setMessageList(oldState => [...oldState, data[0]]);
+      })
     setMessage('');
   }
 
   const deleteMessage = (message) => {
     setMessageList(oldList => oldList.filter(mes => mes?.id === message?.id));
-  }
+  };
+
+  useEffect(() => {
+    const supabaseMessages = supabaseClient
+      .from('Messages')
+      .select('*')
+      .then(({ data }) => {
+        setMessageList(data);
+      })
+      .catch((err) => {
+        // console.log(err);
+      })
+  }, []);
+  
   return (
     <Box
       className='flex items-center justify-center bg-cover bg-no-repeat bg-blend-multiply bg-[url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)]'
