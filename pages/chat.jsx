@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import appConfig from '../config.json';
 import Header from '../components/Header';
 import MessageList from '../components/MessageList';
+import Loading from '../components/Loading';
 import 'tailwindcss/tailwind.css';
 import { createClient } from '@supabase/supabase-js';
 
@@ -14,6 +15,7 @@ const supabaseClient = createClient(SUPABASE_URL, API_KEY);
 const Chat = () => {
   const [message, setMessage] = useState();
   const [messageList, setMessageList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleNewMessage = (newMessage) => {
     const message = {
@@ -30,19 +32,19 @@ const Chat = () => {
   }
 
   const deleteMessage = (message) => {
-    setMessageList(oldList => oldList.filter(mes => mes?.id === message?.id));
+    setMessageList(oldList => oldList.filter(mes => mes?.id !== message?.id));
   };
 
-  useEffect(() => {
-    const supabaseMessages = supabaseClient
+  useEffect(async () => {
+    setLoading(true);
+    const supabaseMessages = await supabaseClient
       .from('Messages')
       .select('*')
       .then(({ data }) => {
         setMessageList(data);
-      })
-      .catch((err) => {
-        // console.log(err);
-      })
+    });
+    
+    setLoading(false);
   }, []);
   
   return (
@@ -66,7 +68,7 @@ const Chat = () => {
             backgroundColor: appConfig.theme.colors.neutrals[600],
           }}
         >
-          <MessageList onDelete={deleteMessage} messages={messageList} />
+          {loading ? (<Loading />) : (<MessageList onDelete={deleteMessage} messages={messageList} />)}
           <Box
             as="form"
             className='flex items-center w-full'

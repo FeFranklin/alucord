@@ -41,7 +41,7 @@ const MessageList = ({ messages, onDelete }) => {
             <Button
               type="button"
               onClick={() => {
-                onDelete(mes.id);
+                onDelete(mes);
               }}
               label="Delete"
               size="sm"
