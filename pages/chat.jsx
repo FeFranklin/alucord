@@ -4,6 +4,7 @@ import appConfig from '../config.json';
 import Header from '../components/Header';
 import MessageList from '../components/MessageList';
 import Loading from '../components/Loading';
+import ButtonSendSticker from '../components/ButtonSendSticker';
 import 'tailwindcss/tailwind.css';
 import { createClient } from '@supabase/supabase-js';
 import { useRouter } from 'next/router';
@@ -12,6 +13,15 @@ const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1Ni
 const SUPABASE_URL = process.env.NEXT_PUBLIC_URL || 'https://eijmsyxnibwglmhbchql.supabase.co';
 
 const supabaseClient = createClient(SUPABASE_URL, API_KEY);
+
+const realTimeMessages = (addMessage) => {
+  return supabaseClient.
+    from('Messages')
+    .on('INSERT', (data) => {
+      addMessage(data.new)
+    })
+    .subscribe();
+}
 
 const Chat = () => {
   const [message, setMessage] = useState();
@@ -36,9 +46,9 @@ const Chat = () => {
     supabaseClient
       .from('Messages')
       .insert([message])
-      .then(({ data }) => {
-        setMessageList(oldState => [...oldState, data[0]]);
+      .then((data) => {
       });
+      
     setMessage('');
   }
 
@@ -55,8 +65,15 @@ const Chat = () => {
       .then(({ data }) => {
         setMessageList(data);
     });
-    
     setLoading(false);
+
+    const subscription = realTimeMessages((newMessage) => {
+        setMessageList(oldState => [...oldState, newMessage]);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    }
   }, []);
   
   return (
@@ -110,7 +127,7 @@ const Chat = () => {
               }}
             />
             <Button
-              className="ml-[5px]"
+              className="ml-[5px] h-full mb-[8px] width-[50px]"
               type="submit"
               label="OK"
               buttonColors={{
@@ -120,6 +137,7 @@ const Chat = () => {
                 mainColorStrong: appConfig.theme.colors.primary[600],
               }}  
             />
+            <ButtonSendSticker onStickerClick={(sticker) => handleNewMessage(`:sticker:${sticker}`)} />
           </Box>
         </Box>
       </Box>

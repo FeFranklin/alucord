@@ -29,15 +29,9 @@ const MessageList = ({ messages, onDelete }) => {
               src={`https://github.com/${mes.from}.png`}
             />
             <Text className="text-base" tag="strong">{mes.from}</Text>
-            <Text
-              className='ml-[8px] text-sm'
-              styles={{
-                color: appConfig.theme.colors.neutrals[300],              
-              }}
-              tag="span"
-            >
+            <p className='ml-[8px] text-xs antialiased font-bold'>
               {(new Date().toLocaleDateString())}
-            </Text>
+            </p>
             <Button
               type="button"
               onClick={() => {
@@ -54,7 +48,7 @@ const MessageList = ({ messages, onDelete }) => {
               }}
             />
           </Box>
-        {mes.text}
+        {mes.text.startsWith(':sticker:') ? (<Image className="w-32"src={mes.text.replace(':sticker:', '')} />) : mes.text}
         </Text>
       ))}
     </Box>
