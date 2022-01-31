@@ -17,6 +17,13 @@ const Chat = () => {
   const [messageList, setMessageList] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const handleDeleteMessage = async (message) => {
+    const { data, error} = await supabaseClient
+      .from('Messages')
+      .delete()
+      .match({ id: message.id });
+  };
+
   const handleNewMessage = (newMessage) => {
     const message = {
       text: newMessage,
@@ -27,11 +34,12 @@ const Chat = () => {
       .insert([message])
       .then(({ data }) => {
         setMessageList(oldState => [...oldState, data[0]]);
-      })
+      });
     setMessage('');
   }
 
-  const deleteMessage = (message) => {
+  const deleteMessage = async (message) => {
+    await handleDeleteMessage(message);
     setMessageList(oldList => oldList.filter(mes => mes?.id !== message?.id));
   };
 
